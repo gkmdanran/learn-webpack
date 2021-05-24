@@ -1,0 +1,10 @@
+h2 {
+    color: pink;
+}
+body{
+    background-image: url('../img/bgc.png');
+}
+:fullscreen {
+    background: #000;
+}
+

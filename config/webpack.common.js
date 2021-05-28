@@ -80,8 +80,13 @@ const commonConfig =(isProduction)=> ({
             {
                 test: /\.css$/,
                 use: [
-                    isProduction ? 
-                    MiniCssExtractPlugin.loader: 
+                    isProduction ? {
+                        loader:MiniCssExtractPlugin.loader,
+                        options:{
+                            publicPath:"../"       //css单独放在文件夹后引用背景图片路径将会错误，需要向外翻一级
+                        }
+                    }
+                    : 
                     "style-loader",     //style-loader负责样式的插入
                     {
                         loader: "css-loader",   //css-loader负责css文件的解析
@@ -143,7 +148,22 @@ const commonConfig =(isProduction)=> ({
     plugins: [
         new HtmlWebpackPlugin({
             title: '测试',      //html文件的title
-            template: "./index.html"   //html模板的路径
+            template: "./index.html",  //html模板的路径
+            // inject: "body"
+            cache: true, // 当文件没有发生任何改变时, 直接使用之前的缓存
+            minify: isProduction ? {
+                removeComments: true, // 是否要移除注释
+                removeRedundantAttributes: true, // 是否移除多余的属性
+                removeEmptyAttributes: true, // 是否移除一些空属性
+                collapseWhitespace: true,  //是否删除空格
+                removeStyleLinkTypeAttributes: true,
+                minifyCSS: true,
+                minifyJS: {
+                    mangle: {
+                        toplevel: true
+                    }
+                }
+            }: false
         }),
         new DefinePlugin({          //定义一些全局变量供HTML模板使用，例如 MY_BASE_URL,必须是字符串
             MY_BASE_URL: "'/22222'"

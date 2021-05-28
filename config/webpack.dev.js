@@ -1,6 +1,6 @@
 const resolveApp = require('./path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-
+const webpack=require('webpack')
 const isProduction = false;
 
 console.log("加载devConfig配置文件");
@@ -35,6 +35,7 @@ module.exports = {
         }
     },
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),   //功能是对作用域进行提升，并且让webpack打包后的代码更小、运行更快；
         // 开发环境
         // new ReactRefreshWebpackPlugin() //react热更新
     ]
